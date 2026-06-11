@@ -20,7 +20,7 @@
     "/\\b[a-z0-9]{8,}\\b/gi"
   ],
   "words": [
-    "yousufwaqar", "playwright", "Playwright", "tsconfig", "tsx",
+    "yousufwaqar", "Yousuf", "Waqar", "playwright", "Playwright", "tsconfig", "tsx",
     "Allure", "allure", "cspell", "renovate", "Renovate", "renovatebot",
     "dependabot", "Dependabot", "lockfile", "Lychee", "lycheeverse",
     "axe", "WCAG", "wcag", "saucedemo", "RESTful", "Booker", "POM",
