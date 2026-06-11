@@ -48,7 +48,7 @@ jobs:
       - name: Unit tests
         run: npm run test:unit
       - name: Spell check
-        run: npx cspell "**/*.{ts,js,md}" --no-progress || true
+        run: npm run spellcheck || true
 
   # The container-based suites share one definition via the reusable workflow.
   functional:
@@ -229,8 +229,29 @@ jobs:
   quality-gate:
     name: Quality Gate
     runs-on: ubuntu-latest
+    # Always run so a failed/skipped/cancelled required suite turns this gate
+    # red instead of skipping it — a skipped required check is treated as
+    # passing by branch protection. Pin branch protection to this single check.
+    if: ${{ always() }}
     # Only the deterministic, blocking modules are required to pass.
     needs: [lint-typecheck, functional, accessibility, security]
     steps:
-      - name: All required quality checks passed
-        run: echo "✅ Functional, accessibility, security and lint/typecheck all green."
+      - name: Verify required checks succeeded
+        env:
+          LINT_TYPECHECK: ${{ needs.lint-typecheck.result }}
+          FUNCTIONAL: ${{ needs.functional.result }}
+          ACCESSIBILITY: ${{ needs.accessibility.result }}
+          SECURITY: ${{ needs.security.result }}
+        run: |
+          echo "lint-typecheck=$LINT_TYPECHECK functional=$FUNCTIONAL accessibility=$ACCESSIBILITY security=$SECURITY"
+          failed=0
+          for result in "$LINT_TYPECHECK" "$FUNCTIONAL" "$ACCESSIBILITY" "$SECURITY"; do
+            if [ "$result" != "success" ]; then
+              failed=1
+            fi
+          done
+          if [ "$failed" -ne 0 ]; then
+            echo "::error::A required quality check did not succeed."
+            exit 1
+          fi
+          echo "✅ Functional, accessibility, security and lint/typecheck all green."

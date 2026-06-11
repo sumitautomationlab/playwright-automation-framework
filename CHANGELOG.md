@@ -22,6 +22,24 @@ notable, human-curated highlights.
   (commit-msg).
 - This changelog.
 
+### Changed
+
+- The `Quality Gate` aggregator now runs unconditionally and fails unless every
+  required suite succeeds, so a skipped/failed suite can no longer slip through
+  branch protection.
+- Pinned `cspell` as a devDependency (run via `npm run spellcheck`) instead of
+  fetching it unpinned through `npx`.
+- The Playwright auto-update workflow now bumps the container image tags in
+  lockstep with the `@playwright/test` package.
+- Hardened workflow permissions (`contents: read`) on the link-check, spellcheck
+  and external-demo workflows.
+
+### Fixed
+
+- README now uses a static MIT license badge (the dynamic badge intermittently
+  errored) and a dark-theme Allure screenshot; removed the unused Codecov badge
+  and upload step.
+
 ## Released
 
 Tagged releases (`v1.2.0`, `v1.3.0`, `v1.3.1`, …) and their notes are published
