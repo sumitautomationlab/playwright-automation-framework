@@ -23,6 +23,6 @@
       "@test-data/*": ["tests/test-data/*"]
     }
   },
-  "include": ["src/**/*", "tests/**/*"],
+  "include": ["src/**/*", "tests/**/*", "playwright.config.ts", "playwright.unit.config.ts"],
   "exclude": ["node_modules", "dist", "test-results", "playwright-report"]
 }

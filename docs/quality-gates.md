@@ -49,7 +49,7 @@ visual run never blocks a merge — but the result is still visible.
 
 ## Speed & cost
 
-- Test jobs run **inside** `mcr.microsoft.com/playwright:v1.59.1-jammy`, so the
+- Test jobs run **inside** `mcr.microsoft.com/playwright:v1.60.0-jammy`, so the
   browsers are already present — no `playwright install` per job.
 - `concurrency` cancels superseded runs on the same ref.
 - Artifacts (HTML reports) upload on every run with short retention.
