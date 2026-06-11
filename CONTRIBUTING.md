@@ -65,7 +65,7 @@ staged sources. The hooks install automatically on `npm ci` (`prepare` script).
 
 ## Code conventions
 
-- **Page Objects** live in `src/pages/`. Each page owns its locators and exposes business-level methods. Tests must not contain raw selectors.
+- **Page Objects** live in `src/pages/`. Each page owns its locators and exposes business-level methods. Tests must not contain raw selectors. (Exception: the third-party demo specs under `tests/external/the-internet/` intentionally use inline selectors to keep that ad-hoc exploratory suite self-contained; the production-grade SauceDemo suite uses page objects.)
 - **Fixtures** live in `src/fixtures/`. Use them to inject pre-wired page objects and helpers into tests.
 - **Test files** use the `*.spec.ts` suffix and follow `Arrange → Act → Assert`.
 - **Tags** go in the test title: `@smoke`, `@regression`, `@api`, `@external`, `@saucedemo`, `@theinternet`. Tag every external test with `@external`.
@@ -93,7 +93,7 @@ npm run test:external
 - [ ] Commits use Conventional Commits
 - [ ] Tests pass locally (`npm run test`)
 - [ ] New tests are tagged appropriately (`@smoke` / `@regression` / `@external` / etc.)
-- [ ] No raw selectors in spec files
+- [ ] No raw selectors in spec files (except the documented `tests/external/the-internet/` demo suite)
 - [ ] No hardcoded URLs or credentials
 - [ ] README / docs updated if behavior or structure changed
 

@@ -35,9 +35,15 @@ jobs:
 
       - name: Update Playwright
         if: steps.check.outputs.needs_update == 'true'
+        env:
+          LATEST: ${{ steps.check.outputs.latest }}
         run: |
           npm install --save-dev @playwright/test@latest
           npx playwright install --with-deps
+          # Keep the container image tags in lockstep with the npm package.
+          for f in .github/workflows/reusable-test.yml .github/workflows/visual-baseline.yml Dockerfile; do
+            sed -i -E "s#(mcr\.microsoft\.com/playwright:)v[0-9]+\.[0-9]+\.[0-9]+(-jammy)#\1v${LATEST}\2#g" "$f"
+          done
 
       - name: Open PR
         if: steps.check.outputs.needs_update == 'true'
@@ -53,6 +59,9 @@ jobs:
 
             - Installed: `${{ steps.check.outputs.installed }}`
             - Latest:    `${{ steps.check.outputs.latest }}`
+
+            Bumps the `@playwright/test` package and the
+            `mcr.microsoft.com/playwright` container image tags together.
 
             Release notes: https://github.com/microsoft/playwright/releases
 

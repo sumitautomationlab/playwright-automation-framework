@@ -32,8 +32,6 @@ engineering skills this repo demonstrates and how to reach me.
 
  </div>
 
-</div>
-
 ---
 
 ## Preview
@@ -258,6 +256,7 @@ playwright-automation-framework/
 ├── .github/
 │   ├── workflows/
 │   │   ├── quality-gate.yml           # Authoritative CI: composite quality gate
+│   │   ├── reusable-test.yml          # Reusable workflow shared by container suites
 │   │   ├── coverage.yml               # Unit coverage (c8) + report artifact
 │   │   ├── codeql.yml                 # CodeQL SAST (JS/TS)
 │   │   ├── scorecard.yml              # OpenSSF Scorecard supply-chain score
@@ -302,6 +301,11 @@ playwright-automation-framework/
 ├── performance/
 │   └── k6/
 │       └── api-load.js                # k6 API load script
+├── scripts/
+│   ├── ci-failure-analyzer.js         # Summarises CI failures into the run log
+│   ├── clean.js                       # Cross-platform artifact cleanup
+│   └── coverage-summary.js            # Renders the coverage job summary
+├── agent/                             # Optional Python AI triage agent
 ├── src/
 │   ├── fixtures/
 │   │   ├── base.fixture.ts            # Page objects + logger (logged-out)
@@ -332,6 +336,14 @@ playwright-automation-framework/
 │   │   └── dashboard.a11y.spec.ts     # Dashboard audit (authenticated)
 │   ├── security/
 │   │   └── api-security.spec.ts       # API & HTTP security assertions
+│   ├── unit/                          # Pure-logic unit tests (c8 coverage gate)
+│   │   ├── accessibility-helper.spec.ts
+│   │   ├── config-manager.spec.ts
+│   │   ├── logger.spec.ts
+│   │   ├── performance-helper.spec.ts
+│   │   └── test-data-manager.spec.ts
+│   ├── self-healing/
+│   │   └── self-healing.spec.ts       # Self-healing locator integration suite
 │   ├── performance/
 │   │   ├── perf-smoke.spec.ts         # Login + API performance smoke
 │   │   └── dashboard.perf.spec.ts     # Dashboard load budget (authenticated)
@@ -360,17 +372,23 @@ playwright-automation-framework/
 ├── AGENTS.md                          # Operating manual for AI coding agents
 ├── SKILLS.md                          # Guided tour of the skills this repo shows
 ├── CONTRIBUTING.md
+├── SECURITY.md                        # Security policy and disclosure process
+├── CHANGELOG.md                       # Notable changes (Keep a Changelog)
 ├── CODEOWNERS                         # Review ownership
 ├── pull_request_template.md
 ├── LICENSE
 ├── Dockerfile                         # Pinned Playwright image
 ├── docker-compose.yml                 # One-command containerised run
 ├── .dockerignore
+├── .env.example                       # Sample environment variables
 ├── .gitignore
+├── .husky/                            # Git hooks (pre-commit, commit-msg)
 ├── .nvmrc                             # Pinned Node version (22)
 ├── .mergify.yml                       # Mergify merge automation
+├── commitlint.config.mjs              # Conventional Commits rules
 ├── eslint.config.mjs                  # ESLint flat config (ts + playwright rules)
 ├── playwright.config.ts               # Playwright configuration
+├── playwright.unit.config.ts          # Unit-test (non-browser) Playwright config
 ├── package.json                       # Scripts and dependencies
 ├── package-lock.json
 ├── tsconfig.json                      # TypeScript configuration
