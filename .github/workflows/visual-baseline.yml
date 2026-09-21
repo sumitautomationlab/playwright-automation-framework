@@ -32,10 +32,25 @@ permissions:
   pull-requests: write
 
 jobs:
+  # The image tag is derived from package.json rather than hard-coded, so the
+  # weekly bump PR never has to edit a file under .github/workflows - which
+  # GITHUB_TOKEN is not allowed to push.
+  resolve-image:
+    runs-on: ubuntu-latest
+    outputs:
+      playwright-version: ${{ steps.version.outputs.playwright-version }}
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+      - id: version
+        run: |
+          VERSION=$(node -p "require('./package.json').devDependencies['@playwright/test'].replace(/^[^0-9]*/, '')")
+          echo "playwright-version=$VERSION" >> "$GITHUB_OUTPUT"
+
   update-baselines:
     name: Regenerate Linux baselines and open a PR
+    needs: resolve-image
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/playwright:v1.60.0-jammy
+    container: mcr.microsoft.com/playwright:v${{ needs.resolve-image.outputs.playwright-version }}-jammy
     env:
       CI: "true"
       BASE_URL: http://localhost:3000
